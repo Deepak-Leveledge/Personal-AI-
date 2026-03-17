@@ -1,0 +1,34 @@
+# Core
+fastapi
+uvicorn
+python-dotenv
+pydantic
+
+# LangChain + LangGraph
+langgraph
+langchain
+langchain-google-genai
+langchain-community
+langsmith
+
+# MCP
+langchain-mcp-adapters
+
+# Vector DB
+pinecone-client
+langchain-pinecone
+
+# MongoDB
+pymongo
+motor
+
+# Tools
+tavily-python
+pypdf2
+
+# Async
+asyncio
+httpx
+
+# SSE streaming
+sse-starlette
