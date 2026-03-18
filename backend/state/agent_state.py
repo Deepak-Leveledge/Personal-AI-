@@ -31,7 +31,8 @@ class AgentState(TypedDict):
     # ── RAG Pipeline ──────────────────────
     rewritten_query: Optional[str]      # query rewriter output
     retrieved_chunks: Optional[List]    # raw chunks from Pinecone
-    reranked_chunks: Optional[List]     # after reranking
+    reranked_chunks: Optional[List]     # LLM reranking of chunks
+    rag_retry_count: int                
     rag_is_relevant: Optional[bool]     # self-RAG check
     is_hallucination: Optional[bool]    # hallucination check
 

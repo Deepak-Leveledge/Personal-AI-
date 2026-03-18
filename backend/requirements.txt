@@ -25,6 +25,7 @@ motor
 # Tools
 tavily-python
 pypdf2
+python-docx
 
 # Async
 asyncio
