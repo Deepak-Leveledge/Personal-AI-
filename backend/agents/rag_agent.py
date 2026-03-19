@@ -1,3 +1,23 @@
+"""
+basic Structure
+User question
+      ↓
+[Query Rewriter]     ← makes question better for search
+      ↓
+[Hybrid Retriever]   ← vector search + keyword search
+      ↓
+[Re-ranker]          ← scores and filters chunks
+      ↓
+[Relevance Checker]  ← self-RAG — are chunks relevant?
+      ↓ (not relevant → retry query rewriter max 2 times)
+      ↓ (relevant → proceed)
+[Answer Generator]   ← Gemini answers from chunks
+      ↓
+[Hallucination Check] ← is answer grounded in chunks?
+      ↓
+Final answer + sources
+"""
+
 from langgraph.graph import StateGraph,START,END
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langsmith import traceable
