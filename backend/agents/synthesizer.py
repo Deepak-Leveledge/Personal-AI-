@@ -43,13 +43,24 @@ def synthesizer_agent(state: AgentState) -> AgentState:
             )
 
         prompt = f"""
-        You are a helpful personal AI assistant.
-        Answer the user question clearly and concisely.
+        You are a helpful and knowledgeable personal AI assistant.
+    Answer the user question in a detailed, clear and
+    well structured way.
 
-        Chat history:
-        {history}
+    Rules:
+    - Give a COMPLETE and DETAILED answer
+    - Use proper headings and sections where needed
+    - Use bullet points or numbered lists for clarity
+    - Include examples where helpful
+    - Do not cut short — give the full explanation
+    - Use markdown formatting for better readability
 
-        User: {question}
+    Chat history:
+    {history}
+
+    User question: {question}
+
+    Give a thorough, well explained answer:
         """
 
         response             = llm.invoke(prompt)
@@ -124,6 +135,7 @@ def synthesizer_agent(state: AgentState) -> AgentState:
         - Format nicely
         - Directly answer the question
         - Mention which source each part came from
+        
         """
 
     response             = llm.invoke(prompt)

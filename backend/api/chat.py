@@ -68,69 +68,68 @@ async def chat(request: Request, body: ChatRequest):
                 "error"            : None,
             }
 
-            # ── send start event ────────────────
-            yield make_event("start", {
-                "message": "Processing your request..."
+            # ── send start ──────────────────────
+            yield make_event("status", {
+                "message": "🤔 Thinking..."
             })
+            await asyncio.sleep(0.05)
 
             # ── run graph in thread ─────────────
-            # graph is sync so run in executor
+            import queue
+            status_queue = queue.Queue()
+
+            # patch state to capture live status
+            original_state = state.copy()
+
             loop   = asyncio.get_event_loop()
             result = await loop.run_in_executor(
                 None, graph.invoke, state
             )
 
-            # ── send status updates ─────────────
+            # ── stream status updates first ─────
             for status in result.get("status_updates", []):
                 yield make_event("status", {
                     "message": status
                 })
-                await asyncio.sleep(0.05)
+                await asyncio.sleep(0.08)
 
-            # ── send sources if any ─────────────
+            # ── small pause before answer ───────
+            await asyncio.sleep(0.15)
+
+            # ── send sources ────────────────────
             if result.get("sources"):
                 yield make_event("sources", {
                     "sources": result["sources"]
                 })
 
-            # ── send final answer ───────────────
+            # ── stream final answer ─────────────
             final_answer = result.get(
                 "final_answer", "No answer generated"
             )
 
-            # stream answer word by word
             words = final_answer.split(" ")
             chunk = ""
 
             for i, word in enumerate(words):
                 chunk += word + " "
-
-                # send every 5 words as a chunk
-                if (i + 1) % 5 == 0:
-                    yield make_event("token", {
-                        "text": chunk
-                    })
+                if (i + 1) % 3 == 0:
+                    yield make_event("token", {"text": chunk})
                     chunk = ""
-                    await asyncio.sleep(0.02)
+                    await asyncio.sleep(0.09)
 
-            # send remaining words
-            if chunk:
-                yield make_event("token", {
-                    "text": chunk
-                })
+            if chunk.strip():
+                yield make_event("token", {"text": chunk})
 
-            # ── send done event ─────────────────
+            # ── done ────────────────────────────
             yield make_event("done", {
-                "intent"  : result.get("intent"),
-                "agents"  : result.get("agents_to_run"),
-                "message" : "Complete!"
+                "intent" : result.get("intent"),
+                "agents" : result.get("agents_to_run"),
+                "message": "Complete!"
             })
 
         except Exception as e:
             print(f"❌ Stream error: {e}")
-            yield make_event("error", {
-                "message": str(e)
-            })
+            yield make_event("error", {"message": str(e)})
 
     return StreamingResponse(
         event_stream(),
