@@ -1,9 +1,8 @@
-import { useState, useRef } from "react";
-import FileUpload from "./FileUpload";
+import { useRef, useState } from "react";
 
 const InputBar = ({ onSend, isLoading }) => {
   const [input, setInput] = useState("");
-  const taRef = useRef();
+  const taRef = useRef(null);
 
   const handleSend = () => {
     if (!input.trim() || isLoading) return;
@@ -12,41 +11,46 @@ const InputBar = ({ onSend, isLoading }) => {
     if (taRef.current) taRef.current.style.height = "auto";
   };
 
-  const handleKey = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
+  const handleKey = (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
       handleSend();
     }
   };
 
-  const canSend = input.trim() && !isLoading;
+  const canSend = Boolean(input.trim()) && !isLoading;
 
   return (
-    <div style={{ padding: "16px 24px", borderTop: "0.5px solid #d3d1c7" }}>
+    <div
+      style={{
+        padding: "18px 24px 20px",
+        borderTop: "1px solid #ddd8ca",
+        background: "rgba(251, 250, 247, 0.88)",
+        backdropFilter: "blur(10px)",
+      }}
+    >
       <div
         style={{
           display: "flex",
           alignItems: "flex-end",
-          gap: "8px",
-          border: "0.5px solid #b4b2a9",
-          borderRadius: "12px",
-          padding: "10px 12px",
-          background: "#fff",
-          transition: "border-color 0.15s",
+          gap: "10px",
+          border: "1px solid #cfc7b6",
+          borderRadius: "18px",
+          padding: "12px 14px",
+          background: "#fffdfa",
+          boxShadow: "0 12px 28px rgba(84, 68, 43, 0.08)",
         }}
       >
-        <FileUpload />
-
         <textarea
           ref={taRef}
           value={input}
-          onChange={(e) => {
-            setInput(e.target.value);
-            e.target.style.height = "auto";
-            e.target.style.height = Math.min(e.target.scrollHeight, 140) + "px";
+          onChange={(event) => {
+            setInput(event.target.value);
+            event.target.style.height = "auto";
+            event.target.style.height = `${Math.min(event.target.scrollHeight, 160)}px`;
           }}
           onKeyDown={handleKey}
-          placeholder="Ask me anything..."
+          placeholder="Ask about your files, the web, GitHub, or Notion..."
           rows={1}
           disabled={isLoading}
           style={{
@@ -54,12 +58,12 @@ const InputBar = ({ onSend, isLoading }) => {
             border: "none",
             outline: "none",
             resize: "none",
-            fontSize: "13px",
+            fontSize: "14px",
             color: "#1a1a19",
             background: "transparent",
             lineHeight: "1.6",
-            minHeight: "22px",
-            maxHeight: "140px",
+            minHeight: "24px",
+            maxHeight: "160px",
             fontFamily: "inherit",
           }}
         />
@@ -68,22 +72,24 @@ const InputBar = ({ onSend, isLoading }) => {
           onClick={handleSend}
           disabled={!canSend}
           style={{
-            width: "28px",
-            height: "28px",
-            borderRadius: "7px",
+            width: "40px",
+            height: "40px",
+            borderRadius: "14px",
             border: "none",
-            background: canSend ? "#c96442" : "#d3d1c7",
+            background: canSend ? "#c96442" : "#d6cfbe",
             cursor: canSend ? "pointer" : "default",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexShrink: 0,
-            transition: "background 0.15s",
+            boxShadow: canSend
+              ? "0 10px 20px rgba(201, 100, 66, 0.24)"
+              : "none",
           }}
         >
           <svg
-            width="13"
-            height="13"
+            width="16"
+            height="16"
             viewBox="0 0 16 16"
             fill="none"
             stroke="white"
@@ -99,11 +105,11 @@ const InputBar = ({ onSend, isLoading }) => {
         style={{
           textAlign: "center",
           fontSize: "11px",
-          color: "#888780",
+          color: "#7f7664",
           marginTop: "8px",
         }}
       >
-        PersonalAI can make mistakes. Verify important info.
+        PersonalAI can make mistakes. Verify important information.
       </p>
     </div>
   );

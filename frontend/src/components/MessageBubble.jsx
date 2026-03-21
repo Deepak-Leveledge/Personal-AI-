@@ -1,74 +1,119 @@
 import ReactMarkdown from "react-markdown";
 
+const bubbleBase = {
+  maxWidth: "min(760px, 80%)",
+  borderRadius: "22px",
+  padding: "14px 16px",
+  boxShadow: "0 10px 24px rgba(75, 61, 38, 0.08)",
+  border: "1px solid transparent",
+};
+
+const avatarStyle = {
+  width: "34px",
+  height: "34px",
+  borderRadius: "12px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontSize: "12px",
+  fontWeight: 700,
+  flexShrink: 0,
+  marginTop: "2px",
+};
+
+const typingDotStyle = {
+  width: "8px",
+  height: "8px",
+  background: "#8f8572",
+  borderRadius: "50%",
+  animation: "bubbleBounce 0.9s infinite ease-in-out",
+};
+
 const MessageBubble = ({ message, sources }) => {
   const isUser = message.role === "user";
-  const isEmpty = !message.content && !isUser;
-  const isTyping = isEmpty;
+  const isTyping = !message.content && !isUser;
 
   return (
     <div
-      className={`flex w-full mb-4 
-                     ${isUser ? "justify-end" : "justify-start"}`}
+      style={{
+        display: "flex",
+        justifyContent: isUser ? "flex-end" : "flex-start",
+        gap: "12px",
+        marginBottom: "18px",
+      }}
     >
       {!isUser && (
         <div
-          className="w-8 h-8 rounded-full bg-purple-600 
-                        flex items-center justify-center 
-                        text-sm mr-3 mt-1 shrink-0"
+          style={{
+            ...avatarStyle,
+            background: "linear-gradient(135deg, #c96442 0%, #9f4f34 100%)",
+            color: "#fffaf4",
+          }}
         >
           AI
         </div>
       )}
 
       <div
-        className={`max-w-[75%] rounded-2xl px-4 py-3
-                       ${
-                         isUser
-                           ? "bg-purple-600 text-white rounded-tr-sm"
-                           : "bg-dark-600 text-gray-100 rounded-tl-sm"
-                       }`}
+        style={{
+          ...bubbleBase,
+          background: isUser ? "#c96442" : "rgba(255, 252, 245, 0.94)",
+          color: isUser ? "#fffaf4" : "#2c2924",
+          borderColor: isUser ? "#c96442" : "#e0d9ca",
+          borderTopRightRadius: isUser ? "8px" : bubbleBase.borderRadius,
+          borderTopLeftRadius: isUser ? bubbleBase.borderRadius : "8px",
+        }}
       >
         {isUser ? (
-          <p className="text-sm leading-relaxed">{message.content}</p>
+          <p style={{ whiteSpace: "pre-wrap" }}>{message.content}</p>
         ) : isTyping ? (
-          /* ✅ typing indicator when empty */
-          <div className="flex gap-1 py-1">
+          <div style={{ display: "flex", gap: "6px", padding: "4px 0" }}>
             {[0, 150, 300].map((delay) => (
               <span
                 key={delay}
-                className="w-2 h-2 bg-gray-400 
-                             rounded-full animate-bounce"
-                style={{ animationDelay: `${delay}ms` }}
+                style={{ ...typingDotStyle, animationDelay: `${delay}ms` }}
               />
             ))}
           </div>
         ) : (
-          /* ✅ markdown content */
-          <div
-            className="text-sm leading-relaxed 
-                          prose prose-invert 
-                          prose-sm max-w-none"
-          >
+          <div style={{ fontSize: "14px", lineHeight: 1.7 }}>
             <ReactMarkdown>{message.content}</ReactMarkdown>
           </div>
         )}
 
-        {/* ✅ Sources — show if available */}
-        {!isUser && sources && sources.length > 0 && (
+        {!isUser && sources?.length > 0 && (
           <div
-            className="mt-3 pt-3 
-                          border-t border-dark-400"
+            style={{
+              marginTop: "14px",
+              paddingTop: "12px",
+              borderTop: "1px solid #e4ddcf",
+            }}
           >
-            <p className="text-xs text-gray-500 mb-2">📚 Sources:</p>
-            <div className="flex flex-wrap gap-1">
-              {sources.map((src, i) => (
+            <p
+              style={{
+                fontSize: "11px",
+                color: "#7f7664",
+                textTransform: "uppercase",
+                letterSpacing: "0.08em",
+                marginBottom: "8px",
+              }}
+            >
+              Sources
+            </p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+              {sources.map((source, index) => (
                 <span
-                  key={i}
-                  className="text-xs bg-dark-500 
-                               text-purple-400 
-                               px-2 py-1 rounded-lg"
+                  key={`${source}-${index}`}
+                  style={{
+                    fontSize: "12px",
+                    background: "#f3eee2",
+                    color: "#6a543a",
+                    border: "1px solid #ddd4c0",
+                    padding: "6px 10px",
+                    borderRadius: "999px",
+                  }}
                 >
-                  📄 {src}
+                  {source}
                 </span>
               ))}
             </div>
@@ -78,13 +123,22 @@ const MessageBubble = ({ message, sources }) => {
 
       {isUser && (
         <div
-          className="w-8 h-8 rounded-full bg-blue-600 
-                        flex items-center justify-center 
-                        text-sm ml-3 mt-1 shrink-0"
+          style={{
+            ...avatarStyle,
+            background: "#eadfcb",
+            color: "#6a543a",
+          }}
         >
-          U
+          You
         </div>
       )}
+
+      <style>{`
+        @keyframes bubbleBounce {
+          0%, 80%, 100% { transform: translateY(0); opacity: 0.6; }
+          40% { transform: translateY(-4px); opacity: 1; }
+        }
+      `}</style>
     </div>
   );
 };

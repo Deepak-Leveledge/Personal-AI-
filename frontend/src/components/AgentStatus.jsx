@@ -1,54 +1,31 @@
-const steps = {
-  general: ["🤔 Thinking..."],
-  websearch: [
-    "🔍 Searching the web...",
-    "📊 Analyzing results...",
-    "✍️ Writing answer...",
-  ],
-  rag: [
-    "📚 Searching documents...",
-    "🔍 Finding relevant chunks...",
-    "✍️ Writing answer...",
-  ],
-  github: [
-    "🐙 Connecting to GitHub...",
-    "📂 Fetching data...",
-    "✍️ Writing answer...",
-  ],
-  notion: [
-    "📝 Connecting to Notion...",
-    "🔍 Searching pages...",
-    "✍️ Writing answer...",
-  ],
-};
-
 const AgentStatus = ({ updates, isLoading }) => {
   if (!isLoading && updates.length === 0) return null;
 
   return (
     <div
       style={{
-        margin: "0 24px 12px",
-        padding: "10px 14px",
-        background: "#f9f8f5",
-        borderRadius: "10px",
-        border: "0.5px solid #d3d1c7",
+        margin: "4px 0 14px 46px",
+        padding: "12px 14px",
+        background: "rgba(247, 242, 232, 0.92)",
+        borderRadius: "16px",
+        border: "1px solid #ddd4c0",
         fontSize: "13px",
+        maxWidth: "560px",
       }}
     >
-      {updates.map((u, i) => (
+      {updates.map((update, index) => (
         <div
-          key={i}
+          key={`${update}-${index}`}
           style={{
             display: "flex",
             alignItems: "center",
             gap: "8px",
             padding: "3px 0",
-            color: "#5f5e5a",
+            color: "#5f5a50",
           }}
         >
-          <span style={{ color: "#3b6d11", fontSize: "11px" }}>✓</span>
-          <span>{u}</span>
+          <span style={{ color: "#4f7a2c", fontSize: "12px" }}>OK</span>
+          <span>{update}</span>
         </div>
       ))}
 
@@ -58,15 +35,14 @@ const AgentStatus = ({ updates, isLoading }) => {
             display: "flex",
             alignItems: "center",
             gap: "8px",
-            padding: "3px 0",
-            color: "#888780",
+            padding: "4px 0 2px",
+            color: "#7f7664",
             marginTop: updates.length ? "4px" : "0",
           }}
         >
-          {/* Animated spinner */}
           <svg
-            width="12"
-            height="12"
+            width="13"
+            height="13"
             viewBox="0 0 12 12"
             style={{ animation: "spin 1s linear infinite", flexShrink: 0 }}
           >
@@ -75,7 +51,7 @@ const AgentStatus = ({ updates, isLoading }) => {
               cy="6"
               r="5"
               fill="none"
-              stroke="#d3d1c7"
+              stroke="#ddd4c0"
               strokeWidth="1.5"
             />
             <path
@@ -86,15 +62,14 @@ const AgentStatus = ({ updates, isLoading }) => {
               strokeLinecap="round"
             />
           </svg>
-          <span>Working...</span>
+          <span>Working on your answer...</span>
         </div>
       )}
 
       <style>{`
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes bounce {
-          0%, 100% { transform: translateY(0); }
-          50%       { transform: translateY(-3px); }
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
       `}</style>
     </div>
