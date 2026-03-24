@@ -22,6 +22,7 @@ const InputBar = ({ onSend, isLoading }) => {
 
   return (
     <div
+      className="input-shell"
       style={{
         position: "sticky",
         bottom: 0,
@@ -33,6 +34,7 @@ const InputBar = ({ onSend, isLoading }) => {
       }}
     >
       <div
+        className="input-surface"
         style={{
           display: "flex",
           alignItems: "flex-end",
@@ -45,6 +47,7 @@ const InputBar = ({ onSend, isLoading }) => {
         }}
       >
         <textarea
+          className="input-textarea"
           ref={taRef}
           value={input}
           onChange={(event) => {
@@ -72,6 +75,7 @@ const InputBar = ({ onSend, isLoading }) => {
         />
 
         <button
+          className="input-send-button"
           onClick={handleSend}
           disabled={!canSend}
           style={{

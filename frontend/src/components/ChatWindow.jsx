@@ -26,6 +26,7 @@ const ChatWindow = ({
   return (
     <div className="chat-window">
       <div
+        className="chat-header"
         style={{
           padding: "24px 28px 18px",
           borderBottom: "1px solid #e3ddcf",
@@ -37,9 +38,9 @@ const ChatWindow = ({
           style={{
             fontSize: "12px",
             textTransform: "uppercase",
-            letterSpacing: "0.08em",
+            letterSpacing: "0.06em",
             color: "#8b816d",
-            marginBottom: "6px",
+            marginBottom: "4px",
           }}
         >
           Chat
@@ -53,9 +54,10 @@ const ChatWindow = ({
         </p>
       </div>
 
-      <div className="chat-scroll" style={{ padding: "24px 24px 12px" }}>
+      <div className="chat-scroll chat-scroll-inner" style={{ padding: "24px 24px 12px" }}>
         {messages.length === 0 && (
           <div
+            className="chat-empty-state"
             style={{
               minHeight: "100%",
               display: "flex",
@@ -85,6 +87,7 @@ const ChatWindow = ({
               AI
             </div>
             <h3
+              className="chat-empty-title"
               style={{
                 fontSize: "28px",
                 lineHeight: 1.15,
@@ -94,6 +97,7 @@ const ChatWindow = ({
               How can I help you today?
             </h3>
             <p
+              className="chat-empty-copy"
               style={{
                 fontSize: "14px",
                 color: "#6d6558",

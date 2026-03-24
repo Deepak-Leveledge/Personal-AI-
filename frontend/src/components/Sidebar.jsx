@@ -8,7 +8,7 @@ const services = [
   { name: "Documents", icon: "DB" },
 ];
 
-const Sidebar = ({ onNewChat, onUploadComplete }) => {
+const Sidebar = ({ onNewChat, onUploadComplete, isOpen, onClose }) => {
   const inputRef = useRef(null);
   const [files, setFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
@@ -48,7 +48,7 @@ const Sidebar = ({ onNewChat, onUploadComplete }) => {
 
   return (
     <aside
-      className="app-sidebar"
+      className={`app-sidebar ${isOpen ? "is-open" : ""}`}
       style={{
         display: "flex",
         flexDirection: "column",
@@ -56,6 +56,15 @@ const Sidebar = ({ onNewChat, onUploadComplete }) => {
         gap: "18px",
       }}
     >
+      <button
+        type="button"
+        className="mobile-sidebar-close"
+        onClick={onClose}
+        aria-label="Close sidebar"
+      >
+        ×
+      </button>
+
       <div
         style={{
           display: "flex",
@@ -109,6 +118,7 @@ const Sidebar = ({ onNewChat, onUploadComplete }) => {
       </button>
 
       <section
+        className="sidebar-card"
         style={{
           background: "rgba(255, 252, 245, 0.82)",
           border: "1px solid #d7d0bf",
@@ -134,7 +144,7 @@ const Sidebar = ({ onNewChat, onUploadComplete }) => {
         <div
           style={{ fontSize: "12px", color: "#6d6558", marginBottom: "12px" }}
         >
-          Select your files, then click upload to send them to the API.
+          Select your files, then click upload to Chat with Document.
         </div>
 
         <input
@@ -146,7 +156,10 @@ const Sidebar = ({ onNewChat, onUploadComplete }) => {
           style={{ display: "none" }}
         />
 
-        <div style={{ display: "flex", gap: "8px", marginBottom: "10px" }}>
+        <div
+          className="sidebar-upload-actions"
+          style={{ display: "flex", gap: "8px", marginBottom: "10px" }}
+        >
           <button
             onClick={() => inputRef.current?.click()}
             style={{
@@ -243,7 +256,7 @@ const Sidebar = ({ onNewChat, onUploadComplete }) => {
         >
           Connected
         </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+        {/* <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
           {services.map((service) => (
             <div
               key={service.name}
@@ -287,10 +300,10 @@ const Sidebar = ({ onNewChat, onUploadComplete }) => {
               />
             </div>
           ))}
-        </div>
+        </div> */}
       </section>
 
-      <div style={{ marginTop: "auto" }}>
+      <div className="sidebar-footer" style={{ marginTop: "auto" }}>
         <button
           onClick={onNewChat}
           style={{
