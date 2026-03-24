@@ -5,7 +5,7 @@ import InputBar from "./InputBar";
 
 const suggestions = [
   "Show my GitHub repos",
-  "Search my Notion pages",
+  "Search Internet for AI news",
   "Latest AI news today",
   "Summarize my document",
 ];

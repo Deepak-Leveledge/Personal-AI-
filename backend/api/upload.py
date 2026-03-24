@@ -12,8 +12,7 @@ async def upload_document(
     files   : list[UploadFile] = File(...)  # ✅ list of files
 ):
     user_id = request.headers.get(
-        "X-User-ID", "deepak_001"
-    )
+        "X-User-ID")
 
     results     = []
     errors      = []

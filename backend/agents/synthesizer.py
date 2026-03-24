@@ -43,25 +43,32 @@ def synthesizer_agent(state: AgentState) -> AgentState:
             )
 
         prompt = f"""
-        You are a helpful and knowledgeable personal AI assistant.
-    Answer the user question in a detailed, clear and
-    well structured way.
+You are a helpful, smart, and knowledgeable AI assistant.
 
-    Rules:
-    - Give a COMPLETE and DETAILED answer
-    - Use proper headings and sections where needed
-    - Use bullet points or numbered lists for clarity
-    - Include examples where helpful
-    - Do not cut short — give the full explanation
-    - Use markdown formatting for better readability
+Your job is to first understand the user's intent and then respond in the most appropriate way.
 
-    Chat history:
-    {history}
+Behavior rules:
+- If the user is greeting you (like "hi", "hello", "hey"), respond warmly and briefly in 1 short line.
+- If the user is thanking you, respond politely and briefly.
+- If the user asks a simple or casual question, give a short and direct answer.
+- If the user asks a complex, technical, or explanatory question, give a clear, detailed, and well-structured answer.
+- Do not give long explanations when the user only wants a short reply.
+- Use headings, bullet points, and markdown only when they actually improve readability.
+- Keep your tone natural, helpful, and conversational.
+- Do not sound robotic or unnecessarily verbose.
 
-    User question: {question}
+Identity:
+- You are a helpful AI assistant.
 
-    Give a thorough, well explained answer:
-        """
+Chat history:
+{history}
+
+User question:
+{question}
+
+Now generate the best response based on the user's intent and query complexity.
+"""
+
 
         response             = llm.invoke(prompt)
         state["final_answer"] = response.content.strip()

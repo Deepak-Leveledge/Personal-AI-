@@ -10,6 +10,7 @@ class AgentState(TypedDict):
     # ── Conversation ──────────────────────
     messages: List[Message]       # full chat history this session
     user_message: str             # current user message
+    user_id: str                 # who is this conversation with
 
     # ── Guardrail ─────────────────────────
     is_safe: Optional[bool]       # True = safe, False = blocked
@@ -32,7 +33,7 @@ class AgentState(TypedDict):
     rewritten_query: Optional[str]      # query rewriter output
     retrieved_chunks: Optional[List]    # raw chunks from Pinecone
     reranked_chunks: Optional[List]     # LLM reranking of chunks
-    rag_retry_count: int                
+    rag_retry_count: Optional[int]      # number of times RAG has been retried
     rag_is_relevant: Optional[bool]     # self-RAG check
     is_hallucination: Optional[bool]    # hallucination check
 

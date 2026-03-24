@@ -23,6 +23,9 @@ const InputBar = ({ onSend, isLoading }) => {
   return (
     <div
       style={{
+        position: "sticky",
+        bottom: 0,
+        zIndex: 5,
         padding: "18px 24px 20px",
         borderTop: "1px solid #ddd8ca",
         background: "rgba(251, 250, 247, 0.88)",
@@ -47,7 +50,7 @@ const InputBar = ({ onSend, isLoading }) => {
           onChange={(event) => {
             setInput(event.target.value);
             event.target.style.height = "auto";
-            event.target.style.height = `${Math.min(event.target.scrollHeight, 160)}px`;
+            event.target.style.height = `${Math.min(event.target.scrollHeight, 120)}px`;
           }}
           onKeyDown={handleKey}
           placeholder="Ask about your files, the web, GitHub, or Notion..."
@@ -63,7 +66,7 @@ const InputBar = ({ onSend, isLoading }) => {
             background: "transparent",
             lineHeight: "1.6",
             minHeight: "24px",
-            maxHeight: "160px",
+            maxHeight: "120px",
             fontFamily: "inherit",
           }}
         />

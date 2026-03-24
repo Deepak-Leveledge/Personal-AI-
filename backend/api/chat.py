@@ -35,8 +35,7 @@ async def chat(request: Request, body: ChatRequest):
 
     # get user_id from header
     user_id = request.headers.get(
-        "X-User-ID", "deepak_001"
-    )
+        "X-User-ID")
 
     async def event_stream():
         try:

@@ -58,7 +58,7 @@ def smart_chunk(pages: list) -> list:
 def ingest_document(
     file_path : str,
     doc_name : str,
-    user_id  : str = "deepak_001"
+    user_id  : str 
 ):
     print(f"📥 Ingesting document: {doc_name}")
 
@@ -125,7 +125,7 @@ def ingest_document(
 # ── Retrieve Chunks ─────────────────────────────
 def retrieve_chunks(
     query   : str,
-    user_id : str = "deepak_001",
+    user_id : str,
     top_k   : int = 10
 ) -> list:
     print(f"🔍 Retrieving chunks for: {query[:50]}...")

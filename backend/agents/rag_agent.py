@@ -44,7 +44,7 @@ def query_rewriter(state: AgentState) -> AgentState:
 
     recent_convo =""
     if history:
-        last = history[-5:] if len(history) >= 5 else history
+        last = history[-10:] if len(history) >= 10 else history
         recent_convo ="\n".join(
             [f"{m['role']}: {m['content']}" for m in last])
 
@@ -92,7 +92,7 @@ def hybrid_retriver(state:AgentState) -> AgentState:
 
 
     query   = state["rewritten_query"]
-    user_id = "deepak_001"
+    user_id = state["user_id"]
 
     # vector search — semantic with query_rewritter
     vector_chunks = retrieve_chunks(
