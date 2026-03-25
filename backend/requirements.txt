@@ -18,9 +18,6 @@ langchain-mcp-adapters
 pinecone-client
 langchain-pinecone
 
-# MongoDB
-pymongo
-motor
 
 # Tools
 tavily-python
