@@ -2,7 +2,7 @@
 
 > One chatbot that talks to your Gmail, Notion, GitHub, searches the web, and answers questions from your own documents — all in one place.
 
-🚀 **Live Demo** → [personal-ai-backend.onrender.com](https://personal-ai-backend.onrender.com)
+🚀 **Live Demo** → [personal-ai-backend.onrender.com]([https://personal-ai-backend.onrender.com](https://personal-ai-henna.vercel.app/))
 
 ---
 
